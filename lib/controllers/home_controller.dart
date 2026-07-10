@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import '../models/country_model.dart';
+import 'dart:convert';
 
 class HomeController extends GetxController {
   final Dio _dio = Dio();
@@ -24,23 +25,35 @@ class HomeController extends GetxController {
       errorMessage('');
 
       const url =
-          'https://restcountries.com/v3.1/all?fields=name,capital,currencies,flags';
+          'https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/json/countries.json';
+
+      print("🌍 REQUEST URL: $url");
+
       final response = await _dio.get(url);
 
+      print(response.statusCode);
+      print(response.data);
+
       if (response.statusCode == 200) {
-        final List<dynamic> data = response.data;
-        final countries = data
-            .map((json) => CountryModel.fromJson(json))
+        print("📥 RESPON DARI API: ${response.data}");
+
+        final List<dynamic> dataList = response.data is String
+            ? jsonDecode(response.data)
+            : response.data;
+
+        final countries = dataList
+            .map((json) => CountryModel.fromJson(json as Map<String, dynamic>))
             .toList();
 
-        // Urutkan nama negara secara abjad (A-Z)
         countries.sort((a, b) => a.name.compareTo(b.name));
 
         countryList.assignAll(countries);
         filteredList.assignAll(countries);
       }
     } catch (e) {
-      errorMessage('Gagal mengambil data. Periksa koneksi internetmu.');
+      print("❌ ERROR DIO: $e");
+
+      errorMessage(e.toString());
     } finally {
       isLoading(false);
     }
