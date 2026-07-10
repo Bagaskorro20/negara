@@ -9,11 +9,35 @@ class HomeView extends StatelessWidget {
   final HomeController homeController = Get.put(HomeController());
   final AuthController authController = Get.find<AuthController>();
 
-  // --- VIBRANT PALETTE ---
+  // --- VIBRANT PALETTE (Untuk Header) ---
   final Color primaryPurple = const Color(0xFF6366F1);
   final Color darkPurple = const Color(0xFF312E81);
-  final Color accentCoral = const Color(0xFFF43F5E);
   final Color bgLight = const Color(0xFFF8FAFC);
+
+  // --- FUNGSI GENERATOR WARNA UNIK ---
+  // Fungsi ini akan menghasilkan warna yang unik dan konsisten berdasarkan nama negara
+  Color _getDynamicColor(String text) {
+    // Daftar palet warna cerah (Material/Tailwind style)
+    final List<Color> colors = [
+      const Color(0xFFEF4444), // Merah (Red)
+      const Color(0xFFF97316), // Oranye (Orange)
+      const Color(0xFFEAB308), // Kuning Emas (Amber)
+      const Color(0xFF10B981), // Hijau Zamrud (Emerald)
+      const Color(0xFF06B6D4), // Biru Muda (Cyan)
+      const Color(0xFF3B82F6), // Biru (Blue)
+      const Color(0xFF8B5CF6), // Ungu (Violet)
+      const Color(0xFFEC4899), // Pink (Rose)
+    ];
+
+    // Menghitung angka unik dari huruf-huruf nama negara
+    int hash = 0;
+    for (int i = 0; i < text.length; i++) {
+      hash = text.codeUnitAt(i) + ((hash << 5) - hash);
+    }
+
+    // Memilih warna dari daftar berdasarkan angka unik tadi
+    return colors[hash.abs() % colors.length];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +45,9 @@ class HomeView extends StatelessWidget {
       backgroundColor: bgLight,
       body: Column(
         children: [
-          // HEADER
+          // ==========================================
+          // 1. CUSTOM HEADER
+          // ==========================================
           Container(
             padding: EdgeInsets.only(
               top: MediaQuery.of(context).padding.top + 10,
@@ -39,7 +65,6 @@ class HomeView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Tombol Logout di pojok kanan atas
                 Align(
                   alignment: Alignment.centerRight,
                   child: IconButton(
@@ -58,7 +83,7 @@ class HomeView extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // --- SEARCH BAR DI DALAM HEADER ---
+                // --- SEARCH BAR ---
                 Container(
                   height: 56,
                   decoration: BoxDecoration(
@@ -78,7 +103,6 @@ class HomeView extends StatelessWidget {
                         Icons.search_rounded,
                         color: Colors.grey,
                       ),
-                      // Aksen tombol kecil di dalam search bar
                       suffixIcon: Container(
                         margin: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
@@ -100,12 +124,14 @@ class HomeView extends StatelessWidget {
             ),
           ),
 
-          // KONTEN LIST
+          // ==========================================
+          // 2. KONTEN LIST
+          // ==========================================
           Expanded(
             child: Obx(() {
               if (homeController.isLoading.value) {
                 return Center(
-                  child: CircularProgressIndicator(color: accentCoral),
+                  child: CircularProgressIndicator(color: primaryPurple),
                 );
               }
 
@@ -114,7 +140,7 @@ class HomeView extends StatelessWidget {
               }
 
               return RefreshIndicator(
-                color: accentCoral,
+                color: primaryPurple,
                 onRefresh: homeController.fetchCountries,
                 child: ListView.builder(
                   padding: const EdgeInsets.all(24),
@@ -123,6 +149,9 @@ class HomeView extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final country = homeController.filteredList[index];
 
+                    // Eksekusi fungsi penentu warna berdasarkan nama negara!
+                    final Color cardColor = _getDynamicColor(country.name);
+
                     return Container(
                       margin: const EdgeInsets.only(bottom: 16),
                       decoration: BoxDecoration(
@@ -130,7 +159,9 @@ class HomeView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: primaryPurple.withOpacity(0.05),
+                            color: cardColor.withOpacity(
+                              0.08,
+                            ), // Shadow-nya juga menyesuaikan warna!
                             blurRadius: 10,
                             offset: const Offset(0, 5),
                           ),
@@ -138,14 +169,12 @@ class HomeView extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          // Aksen Garis di pinggir kiri card
+                          // --- GARIS PINGGIR BERUBAH WARNA ---
                           Container(
                             width: 6,
-                            height: 70,
+                            height: 75,
                             decoration: BoxDecoration(
-                              color: index % 2 == 0
-                                  ? primaryPurple
-                                  : accentCoral, // Warna selang-seling
+                              color: cardColor,
                               borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(20),
                                 bottomLeft: Radius.circular(20),
@@ -153,12 +182,21 @@ class HomeView extends StatelessWidget {
                             ),
                           ),
 
-                          // Ikon Bendera
+                          // --- BENDERA (Latar belakangnya juga mengikuti warna) ---
                           Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Text(
-                              country.flagUrl,
-                              style: const TextStyle(fontSize: 32),
+                            padding: const EdgeInsets.all(12.0),
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: cardColor.withOpacity(
+                                  0.1,
+                                ), // Efek transparan 10%
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Text(
+                                country.flagUrl,
+                                style: const TextStyle(fontSize: 28),
+                              ),
                             ),
                           ),
 
@@ -207,7 +245,7 @@ class HomeView extends StatelessWidget {
                             padding: const EdgeInsets.only(right: 16.0),
                             child: Icon(
                               Icons.chevron_right_rounded,
-                              color: Colors.grey.shade400,
+                              color: Colors.grey.shade300,
                             ),
                           ),
                         ],
