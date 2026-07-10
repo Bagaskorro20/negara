@@ -5,7 +5,6 @@ import '../controllers/auth_controller.dart';
 class SplashView extends StatelessWidget {
   SplashView({Key? key}) : super(key: key);
 
-  // Inisiasi AuthController saat aplikasi dibuka
   final AuthController authController = Get.put(AuthController());
 
   @override

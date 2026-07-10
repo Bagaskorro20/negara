@@ -9,14 +9,9 @@ class LoginView extends StatelessWidget {
   final TextEditingController userCtrl = TextEditingController();
   final TextEditingController passCtrl = TextEditingController();
 
-  // --- VIBRANT PALETTE ---
-  final Color primaryPurple = const Color(
-    0xFF6366F1,
-  ); // Indigo Purple yang modern
-  final Color darkPurple = const Color(0xFF312E81); // Ungu sangat pekat
-  final Color accentCoral = const Color(
-    0xFFF43F5E,
-  ); // Aksen Coral/Pink cerah (Pecah Monoton!)
+  final Color primaryPurple = const Color(0xFF6366F1); // Ungu
+  final Color darkPurple = const Color(0xFF312E81);
+  final Color accentCoral = const Color(0xFFF43F5E); // Pink cerah
   final Color bgLight = const Color(0xFFF8FAFC);
 
   @override
@@ -25,7 +20,6 @@ class LoginView extends StatelessWidget {
       backgroundColor: bgLight,
       body: Stack(
         children: [
-          // HEADER
           Positioned(
             top: 0,
             left: 0,
@@ -39,12 +33,11 @@ class LoginView extends StatelessWidget {
                   colors: [darkPurple, primaryPurple],
                 ),
                 borderRadius: const BorderRadius.only(
-                  bottomRight: Radius.circular(100), // Asimetris biar gak kaku
+                  bottomRight: Radius.circular(100),
                 ),
               ),
               child: Stack(
                 children: [
-                  // Elemen dekoratif abstrak
                   Positioned(
                     top: -20,
                     right: -20,
@@ -58,9 +51,7 @@ class LoginView extends StatelessWidget {
                     left: 30,
                     child: CircleAvatar(
                       radius: 30,
-                      backgroundColor: accentCoral.withOpacity(
-                        0.8,
-                      ), // Letupan warna!
+                      backgroundColor: accentCoral.withOpacity(0.8),
                     ),
                   ),
                 ],
@@ -68,7 +59,6 @@ class LoginView extends StatelessWidget {
             ),
           ),
 
-          // LOGIN
           SafeArea(
             child: Center(
               child: SingleChildScrollView(
@@ -76,7 +66,7 @@ class LoginView extends StatelessWidget {
                 child: Column(
                   children: [
                     const SizedBox(height: 20),
-                    // Teks Header
+
                     const Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -91,7 +81,6 @@ class LoginView extends StatelessWidget {
                     ),
                     const SizedBox(height: 40),
 
-                    // Kotak Form (Overlapping ke background)
                     Container(
                       padding: const EdgeInsets.all(32),
                       decoration: BoxDecoration(
@@ -122,17 +111,13 @@ class LoginView extends StatelessWidget {
                           ),
                           const SizedBox(height: 40),
 
-                          // Tombol Login dengan efek Gradient
                           Container(
                             width: double.infinity,
                             height: 56,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16),
                               gradient: LinearGradient(
-                                colors: [
-                                  primaryPurple,
-                                  accentCoral,
-                                ], // Gradasi atraktif
+                                colors: [primaryPurple, accentCoral],
                               ),
                               boxShadow: [
                                 BoxShadow(

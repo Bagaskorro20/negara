@@ -13,7 +13,7 @@ class AuthController extends GetxController {
     checkLoginStatus();
   }
 
-  // Cek apakah user sudah pernah login sebelumnya
+  // Cek apakah user sudah pernah login
   void checkLoginStatus() async {
     final prefs = await SharedPreferences.getInstance();
     bool isLoggedIn = prefs.getBool(_loginKey) ?? false;
@@ -39,7 +39,7 @@ class AuthController extends GetxController {
       return;
     }
 
-    // Simpan session ke SharedPreferences
+    // Simpan ke SharedPreferences
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_loginKey, true);
     await prefs.setString(_userKey, username);
@@ -48,7 +48,7 @@ class AuthController extends GetxController {
     Get.offAll(() => HomeView());
   }
 
-  // Bonus: Fungsi Logout
+  // Logout
   void logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.clear(); // Hapus semua session

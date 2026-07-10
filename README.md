@@ -1,17 +1,30 @@
-# negara
+# Aplikasi Country Explorer 🌍
 
-A new Flutter project.
+Aplikasi Flutter modern dan minimalis untuk menjelajahi direktori negara di seluruh dunia, dilengkapi dengan portal autentikasi yang aman dan antarmuka pengguna (UI) yang dinamis.
 
-## Getting Started
+## 🚀 Fitur Utama
 
-This project is a starting point for a Flutter application.
+- **Portal Autentikasi:** Layar login yang rapi dan aman untuk membatasi akses pengguna.
+- **Direktori Global:** Mengambil dan menampilkan daftar negara, lengkap dengan nama ibukota dan benderanya.
+- **Pencarian Real-time:** Memfilter data negara secara instan berdasarkan nama atau ibukota.
+- **Pewarnaan Dinamis (Color Hashing):** UI secara otomatis memproses huruf pada nama negara untuk menghasilkan palet warna garis yang unik namun tetap konsisten untuk setiap kartu.
+- **UI Technical Minimalist:** Didesain menggunakan palet warna krem hangat (_warm cream_) dan ungu pekat (_deep plum_), berfokus pada penyajian data yang terstruktur.
 
-A few resources to get you started if this is your first Flutter project:
+## 🛠️ Tech Stack & Arsitektur
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+- **Framework:** Flutter
+- **State Management:** GetX
+- **Network / HTTP Client:** Dio
+- **Arsitektur:** MVC (Model-View-Controller)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 📁 Struktur Direktori
+
+Proyek ini mengadopsi pendekatan arsitektur yang bersih (_clean architecture_) untuk menjaga skalabilitas kode:
+
+```text
+lib/
+├── controllers/    # Logika bisnis dan state management (AuthController, HomeController)
+├── models/         # Struktur data dan logika parsing JSON (CountryModel)
+├── views/          # Tampilan layar UI (HomeView, LoginView)
+└── database/       # Direktori yang disiapkan untuk integrasi penyimpanan lokal (misal: Isar/Hive)
+```

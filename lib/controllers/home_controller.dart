@@ -59,7 +59,7 @@ class HomeController extends GetxController {
     }
   }
 
-  // Bonus: Fitur Filter/Pencarian Negara
+  // Pencarian Negara
   void searchCountry(String query) {
     if (query.isEmpty) {
       filteredList.assignAll(countryList);
